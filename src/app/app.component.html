@@ -1,7 +1,7 @@
 <div class="container-fluid pt-2 ps-4 text-center mt-2">
   <h2 class="text-center"> <i class="fas fa-chair me-1"></i> Smart Chair</h2>
-  <div class="col d-flex mt-3">
-    <div class="row">
+  <div class="col d-flex mt-3 flex-wrap justify-content-around">
+    <div class="row m-1">
       <div class="card bg-light text-dark">
         <div class="card-body">
           <h5 class="card-title"> <i class="far fa-clock me-2"></i>5 horas</h5>
@@ -9,7 +9,7 @@
         </div>
       </div>
     </div>
-    <div class="row ms-4">
+    <div class="row m-1">
       <div class="card bg-light text-dark" >
         <div class="card-body">
           <h5 class="card-title"> <i class="fa fa-user me-2" aria-hidden="true"></i> 8 veces </h5>
@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    <div class="row ms-4">
+    <div class="row m-1">
       <div class="card bg-light text-dark" >
         <div class="card-body">
           <h5 class="card-title"> <i class="fa fa-hourglass-end me-2"></i> 12:20:35 </h5>
@@ -25,7 +25,7 @@
         </div>
       </div>
     </div>
-    <div class="row ms-4">
+    <div class="row m-1">
       <div class="card bg-light text-dark" >
         <div class="card-body">
           <h5 class="card-title"> <i class="fas fa-user-clock"></i> 09:15:12 </h5>
@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    <div class="row ms-4">
+    <div class="row m-1">
       <div class="card bg-light text-dark" >
         <div class="card-body">
           <h5 class="card-title"> <i class="fa fa-weight-hanging me-2"></i> 0 kg </h5>
@@ -73,11 +73,11 @@
     </div>
     <div class="col mt-2" > 
       <h5>Tendencia de peso</h5>
-      <chart class="bg-light" [type]="type" [data]="data1" [options]="options"></chart>
+      <chart class="bg-light" [type]="typeGraph1" [data]="data1" [options]="options"></chart>
     </div>
     <div class="col mt-2">
       <h5>Dias de mayor uso</h5>
-      <chart class="bg-light" [type]="type2" [data]="data2" [options]="options"></chart>
+      <chart class="bg-light" [type]="typeGraph2" [data]="data2" [options]="options"></chart>
     </div>
   </div>
 
