@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { dataD } from './data/data.constants';
 import { ApiService } from './services/api.service';
+import {Chart} from 'chart.js'
 
 @Component({
   selector: 'app-root',
@@ -13,13 +14,22 @@ export class AppComponent {
   dataHistory = []
   labelsThend = []
   dataThend = []
+  dataThendMin = []
+  dataSchedule=[]
   typeGraph1: string
   typeGraph2: string
+  typeGraph3: string
+  typeGraph4: string
   data1 = {}
   data2 = {}
+  data3={}
+  data4={}
   data = []
   contDias = [0, 0, 0, 0, 0, 0, 0]
-
+  contDias2 = [0, 0, 0, 0, 0, 0, 0]
+  contDias22 = [0, 0, 0, 0, 0, 0, 0]
+  contDias4 = [0, 0, 0, 0, 0, 0, 0]
+  chart;
 
   constructor(private apiService: ApiService) { }
 
@@ -32,8 +42,10 @@ export class AppComponent {
     this.getDataThendGraph(res)
     this.getDataHistory(res)
     this.getDataBarGraph(res)
+    this.getDataBarGraphMin(res)
+    this.getDataSchedule(res)
 
-    // })
+  
   }
 
   getDataHistory(data: object[]): void {
@@ -109,22 +121,230 @@ export class AppComponent {
           'rgb(153, 102, 255)',
           'rgb(201, 203, 207)'
         ],
-        borderWidth: 1
+        borderWidth: 1,
+        
       }]
+ 
+
     }
 
-  }
 
-  //General options for graphics
-  options = {
+  } options = {
     responsive: true,
     // maintainAspectRatio: false
   };
+
+  //General options for graphics
+  optionsMin = {
+    responsive: true,
+    
+   
+    // maintainAspectRatio: false
+  };
+  getDataSchedule(data: object[]): void {
+    let horaDia=0;
+    let horaDia2=0;
+    let horaDia3=0;
+
+    
+    data.map((val: any) => {
+      if (val.tipo == 1) {
+       // 2021-09-17T01:09:00.089Z
+        let numeroDia = new Date(val.fecha_fin.split('T')[0] + " " + val.fecha_fin.split('T')[1].split('.')[0]).getDay();
+        //this.contDias2[numeroDia]
+        
+        horaDia = val.fecha_fin.split('T')[1].split(':')[0] ;
+        if(horaDia==horaDia2){
+          if(horaDia==horaDia3){
+            this.contDias4[numeroDia]=horaDia;
+          }else{
+            horaDia3=horaDia2;
+            horaDia2=horaDia;
+          }
+          this.contDias4[numeroDia]=horaDia2;
+        }else{
+          if(horaDia2!=0&&horaDia3!=0){
+            this.contDias4[numeroDia]=horaDia2;
+          }else{
+            this.contDias4[numeroDia]=horaDia;
+          }
+          horaDia2=horaDia;
+          
+        }
+       
+      }
+    })
+   
+    let total:number=0, numero:number=0;
+/*for (let index = 0; index < this.contDias2.length; index++) {
+  numero = this.contDias2[index];
+  //this.contDias2.fi
+  total=total+numero;
+  console.log(total)
+  //total=total2
+}*/
+
+
+console.log(this.contDias4)
+    
+    this.chart = new Chart('line', {
+      type: 'line',
+      options: {
+        responsive: true,
+        
+      },
+      data: {
+        labels: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
+        datasets: [
+          {
+            type: 'line',
+            
+            label: 'Cantidad',
+            data: this.contDias4,
+            backgroundColor: 'rgb(64, 224, 208,0.6)',
+            borderColor: '#dd3b56',
+            fill: false,
+          }
+        ]
+      }
+    });
+
+   /* let options = {
+       aspectRatio: 1,
+       legend: false,
+      tooltips: false,
+      indexAxis: 'y',
+      elements: {
+        point: {
+          borderWidth: function (context) {
+            return Math.min(Math.max(1, context.datasetIndex + 1), 8);
+          },
+          hoverBackgroundColor: 'white',
+          hoverBorderColor: function (context) {
+            return "red";
+          },
+          hoverBorderWidth: function (context) {
+            var value = context.dataset.data[context.dataIndex];
+            return Math.round(8 * value.v / 1000);
+          },
+          radius: function (context) {
+            var value = context.dataset.data[context.dataIndex];
+            var size = context.chart.width;
+            var base = Math.abs(value.v) / 1000;
+            return (size / 24) * base;
+          }
+        }
+      }
+    };*/
+  }
+  getDataBarGraphMin(data: object[]): void {
+    data.map((val: any) => {
+      if (val.tipo == 1) {
+        let numeroDia = new Date(val.fecha_fin.split('T')[0] + " " + val.fecha_fin.split('T')[1].split('.')[0]).getDay();
+        this.contDias2[numeroDia]++
+        
+      }
+    })
+    let total:number=0, numero:number=0, nuevoNumero:number=0;
+for (let index = 0; index < this.contDias2.length; index++) {
+  numero = this.contDias2[index];
+  
+  total=total+numero;
+  console.log(total)
+  //total=total2
+}
+total=total/7;
+for (let index = 0; index < this.contDias2.length; index++) {
+  numero = this.contDias2[index];
+  
+  nuevoNumero=total-numero;
+  if(nuevoNumero>0){
+  this.contDias22[index]=nuevoNumero*-1
+  }
+  //total=total2
+}
+
+
+
+console.log(total)
+    
+    this.chart = new Chart('bar', {
+      type: 'bar',
+      options: {
+        responsive: true,
+        
+      },
+      data: {
+        labels: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
+        datasets: [
+          {
+            type: 'bar',
+            
+            label: 'Cantidad',
+            data: this.contDias2,
+            backgroundColor: 'rgb(64, 224, 208,0.6)',
+            borderColor: '#dd3b56',
+            fill: false,
+          },
+           {
+             type: 'line',
+             label: 'Media',
+              backgroundColor: 'rgba(0,0,255,0.5)',
+             borderColor: 'rgba(0,0,255,0.5)',
+             data:[total,total,total,total,total,total,total],
+             fill: true,
+           },
+           {
+            type: 'bar',
+            
+            label: 'Veces menores a la media',
+            data: this.contDias22,
+            backgroundColor: 'rgb(255, 99, 71,0.6)',
+            borderColor: '#dd3b56',
+            fill: false,
+          },
+        ]
+      }
+    });
+
+   /* let options = {
+       aspectRatio: 1,
+       legend: false,
+      tooltips: false,
+      indexAxis: 'y',
+      elements: {
+        point: {
+          borderWidth: function (context) {
+            return Math.min(Math.max(1, context.datasetIndex + 1), 8);
+          },
+          hoverBackgroundColor: 'white',
+          hoverBorderColor: function (context) {
+            return "red";
+          },
+          hoverBorderWidth: function (context) {
+            var value = context.dataset.data[context.dataIndex];
+            return Math.round(8 * value.v / 1000);
+          },
+          radius: function (context) {
+            var value = context.dataset.data[context.dataIndex];
+            var size = context.chart.width;
+            var base = Math.abs(value.v) / 1000;
+            return (size / 24) * base;
+          }
+        }
+      }
+    };*/
+
+  }
+ 
+
 
   test($event: any) {
     console.log('Test', $event.value);
     let test = this.data.filter(r=> r.fecha_fin.split('T')[1].split('.')[0] == $event.value)
   }
 }
+
+
 
 

@@ -15,6 +15,7 @@ import { ApiService } from './services/api.service';
     BrowserModule,
     AppRoutingModule,
     ChartModule,
+
     HttpClientModule,
   ],
   providers: [ApiService],

@@ -79,6 +79,23 @@
       <h5>Dias de mayor uso</h5>
       <chart class="bg-light" [type]="typeGraph2" [data]="data2" [options]="options"></chart>
     </div>
+    <div class="col mt-2" >
+      <h5>Dias de menor uso</h5>
+      <div class="chart-diplay">
+        <div style="width: 100%"  style="background-color:#FFFFFF">
+          <canvas id="bar"></canvas>
+        </div>
+      </div>
+    </div>
+     <div class="col mt-2" >
+      <h5>Horario de uso</h5>
+      <div class="chart-diplay">
+        <div style="width: 100%"  style="background-color:#FFFFFF">
+          <canvas id="line"></canvas>
+        </div>
+      </div>
+    </div>
+ 
   </div>
 
 </div>
