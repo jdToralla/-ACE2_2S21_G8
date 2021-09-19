@@ -250,7 +250,7 @@ for (let index = 0; index < this.contDias2.length; index++) {
   numero = this.contDias2[index];
   
   total=total+numero;
-  console.log(total)
+  //console.log(total)
   //total=total2
 }
 total=total/7;
