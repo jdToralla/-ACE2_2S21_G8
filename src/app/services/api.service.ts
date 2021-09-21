@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -11,12 +11,12 @@ export class ApiService {
 
   constructor(public http: HttpClient) { }
 
-  endpoint = "http://34.219.19.169:5001"
-  // httpOptions = {
-  //   headers: new HttpHeaders({
-  //     'Content-Type': 'application/json'
-  //   })
-  // };
+  endpoint = "http://localhost:5001"
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
 
   getAllData(): Observable<any> {
     return this.http.get(this.endpoint + '/arqui2pro1').pipe(
@@ -26,5 +26,20 @@ export class ApiService {
     )
   }
 
+  getDatabyDate(data: object): Observable<any> {
+    return this.http.post(this.endpoint + '/arqui2pro1/currentDate', data).pipe(
+      map((data: any)=>{
+        return data
+      })
+    )
+  }
+
+  insertData(data: object): Observable<any> {
+    return this.http.post(this.endpoint + '/arqui2pro1', data).pipe(
+      map((data: any)=>{
+        return data
+      })
+    )
+  }
 
 }

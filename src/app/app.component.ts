@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { dataD } from './data/data.constants';
 import { ApiService } from './services/api.service';
 
 @Component({
@@ -9,7 +8,7 @@ import { ApiService } from './services/api.service';
 })
 export class AppComponent {
 
-  title = 'Smart Chair';
+  title:string = 'Smart Chair';
   dataHistory = []
   labelsThend = []
   dataThend = []
@@ -18,37 +17,36 @@ export class AppComponent {
   data1 = {}
   data2 = {}
   data = []
-  contDias = [0, 0, 0, 0, 0, 0, 0]
+  contDias:number[] =[0, 0, 0, 0, 0, 0, 0]
+  currentData = []
+  totalMinutes:number = 0
+  totalMinutesPerDay:number = 0
 
 
-  constructor(private apiService: ApiService) { }
-
-  ngOnInit() {
-    // this.apiService.getAllData().subscribe(res => {
-
-    // console.log(res);
-    let res = dataD
-    this.data = res
-    this.getDataThendGraph(res)
-    this.getDataHistory(res)
-    this.getDataBarGraph(res)
-
-    // })
+  constructor(private apiService: ApiService) {
+    const today = new Date();
+    let currentDate = today.getFullYear() + '-' + '0' + (today.getMonth() + 1) + '-' + today.getDate();
+    // let currentDate = today.getFullYear() + '-' + '0'+(today.getMonth() + 1) + '-' + "17";
+    this.getDataNow(currentDate)
+    this.searchByDate(currentDate)
   }
 
-  getDataHistory(data: object[]): void {
-    data.map((val: any) => {
-      if (val.tipo == 1) {
-        this.dataHistory.push({
-          date: val.fecha_inicio.split('T')[0],
-          startTime: val.fecha_inicio.split('T')[1].split('.')[0],
-          endTime: val.fecha_fin.split('T')[1].split('.')[0]
-        })
-      }
+  ngOnInit() {
+    this.apiService.getAllData().subscribe(res => {
+      this.data = res
+      console.log(res);
+      
+      this.getDataThendGraph(res)
+      this.getDataBarGraph(res)
+      this.totalMinutes =  this.calculateTotalMinutes(res.filter((r:any)=> r.tipo == 1))
     })
   }
 
-  getDataThendGraph(data: object[]): void {
+
+  getDataThendGraph(data): void {
+
+    let hash = {};
+    data = data.filter(r => r.tipo == 2).filter(o => hash[o.fecha_inicio.split('T')[0]] ? false : hash[o.fecha_inicio.split('T')[0]] = true);
 
     data.map((val: any) => {
       if (val.tipo == 2) {
@@ -85,11 +83,11 @@ export class AppComponent {
     })
 
     // 2. Bar graph
-    this.typeGraph2 = 'bar';
+    this.typeGraph2 = 'pie'; //pie
     this.data2 = {
       labels: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
       datasets: [{
-        label: 'Cantidad',
+        label: '',
         data: this.contDias,
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
@@ -109,7 +107,7 @@ export class AppComponent {
           'rgb(153, 102, 255)',
           'rgb(201, 203, 207)'
         ],
-        borderWidth: 1
+        borderWidth: 2
       }]
     }
 
@@ -118,13 +116,65 @@ export class AppComponent {
   //General options for graphics
   options = {
     responsive: true,
-    // maintainAspectRatio: false
   };
 
-  test($event: any) {
-    console.log('Test', $event.value);
-    let test = this.data.filter(r=> r.fecha_fin.split('T')[1].split('.')[0] == $event.value)
+  searchByDate($event: any):void {
+    // console.log($event.value);
+    this.dataHistory = []
+    this.apiService.getDatabyDate({ date: $event.value ? $event.value : $event }).subscribe(res => {
+      this.getDataHistory(res)
+    })
   }
+
+  getDataHistory(data: object[]): void {
+    data.map((val: any) => {
+      if (val.tipo == 1) {
+        this.dataHistory.push({
+          date: val.fecha_inicio.split('T')[0],
+          startTime: val.fecha_inicio.split('T')[1].split('.')[0],
+          endTime: val.fecha_fin.split('T')[1].split('.')[0]
+        })
+      }
+    })
+  }
+
+  getDataNow(currentDate: string): void {
+    this.apiService.getDatabyDate({ date: currentDate }).subscribe(res => {
+      this.currentData = res.filter(r => r.tipo === 1)
+      this.totalMinutesPerDay = this.calculateTotalMinutes(this.currentData)
+    })
+  }
+
+  calculateTotalMinutes(data): number {
+    let totalMinutes = 0
+    data.map(val => {
+      let startTime = new Date(val.fecha_inicio);
+      let endTime = new Date(val.fecha_fin);
+      let difference = endTime.getTime() - startTime.getTime(); // This will give difference in milliseconds  
+      let resultInMinutes = Math.round(difference / 60000);
+      totalMinutes += resultInMinutes
+    })
+
+    return totalMinutes
+  }
+
+  insertData():void {
+    let data = {
+      "tipo": 1,
+      "valor": 0,
+      "estado": 1,
+      "dias": 0,
+      "horas": 3,
+      "minutos": 30
+    }
+
+    this.apiService.insertData(data).subscribe(res => {
+      console.log(res);
+    })
+
+  }
+
+
 }
 
 
