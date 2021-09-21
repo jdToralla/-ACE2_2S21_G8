@@ -182,7 +182,7 @@ export class AppComponent {
   total=total+numero;
   console.log(total)
   //total=total2
-}*/
+}*/ 
 
 
 console.log(this.contDias4)
