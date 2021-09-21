@@ -4,7 +4,7 @@
     <div class="row m-1">
       <div class="card bg-light text-dark">
         <div class="card-body">
-          <h5 class="card-title"> <i class="far fa-clock me-2"></i>5 horas</h5>
+          <h5 class="card-title"> <i class="far fa-clock me-2"></i>{{(totalMinutes /60).toFixed(2)}} horas</h5>
           <p class="card-text">Tiempo total de horas de Uso</p>
         </div>
       </div>
@@ -12,7 +12,7 @@
     <div class="row m-1">
       <div class="card bg-light text-dark" >
         <div class="card-body">
-          <h5 class="card-title"> <i class="fa fa-user me-2" aria-hidden="true"></i> 8 veces </h5>
+          <h5 class="card-title"> <i class="fa fa-user me-2" aria-hidden="true"></i> {{currentData.length}} veces </h5>
           <p class="card-text">Número de veces que el usuario se levanta por día</p>
         </div>
       </div>
@@ -20,7 +20,7 @@
     <div class="row m-1">
       <div class="card bg-light text-dark" >
         <div class="card-body">
-          <h5 class="card-title"> <i class="fa fa-hourglass-end me-2"></i> 12:20:35 </h5>
+          <h5 class="card-title"> <i class="fa fa-hourglass-end me-2"></i> {{(totalMinutesPerDay /60).toFixed(2)}} horas</h5>
           <p class="card-text">Tiempo de uso promedio de la silla por día</p>
         </div>
       </div>
@@ -48,7 +48,7 @@
       <h5>Historial de uso</h5>
       <div class="col-auto">
         <label class="sr-only" for="inlineFormInput">Name</label>
-        <input type="date" class="form-control mb-2" id="inlineFormInput" placeholder="Jane Doe" (change)="test($event.target)">
+        <input type="date" class="form-control mb-2" id="inlineFormInput" placeholder="Jane Doe" (change)="searchByDate($event.target)">
       </div>
       <div style="height: 200px; overflow-y:auto; scrollbar-width: none;">
         <table class="table table-light">
@@ -79,6 +79,8 @@
       <h5>Dias de mayor uso</h5>
       <chart class="bg-light" [type]="typeGraph2" [data]="data2" [options]="options"></chart>
     </div>
+  </div>
+  <div class="row mt-3"> 
     <div class="col mt-2" >
       <h5>Dias de menor uso</h5>
       <div class="chart-diplay">
@@ -95,7 +97,12 @@
         </div>
       </div>
     </div>
- 
+    <div class="col mt-2" >
+    </div>
   </div>
 
 </div>
+
+<!-- <div>
+  <button class="btn btn-primary" (click)="insertData()"> Insertar</button>
+</div> -->

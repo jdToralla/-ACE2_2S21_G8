@@ -116,4 +116,17 @@ async function getSubscriber(req, res, next) {
   next()
 }
 
+router.post('/currentDate', async (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+
+  try {
+    const date = req.body.date
+    const subscribers = await Subscriber.find({ fecha_fin: { $gte:`${date}T00:00:00.000Z`,$lt: `${date}T23:59:59.999Z`} }).sort({ fecha_fin: -1 })
+    res.json(subscribers)
+
+  } catch (err) {
+    res.status(500).json({ message: err.message })
+  }
+})
+
 module.exports = router
