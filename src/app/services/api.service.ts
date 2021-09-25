@@ -42,4 +42,12 @@ export class ApiService {
     )
   }
 
+  last(data): Observable<any> {
+    return this.http.post(this.endpoint + '/arqui2pro1/last', data).pipe(
+      map((data: any)=>{
+        return data
+      })
+    )
+  }
+
 }

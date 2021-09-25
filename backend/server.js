@@ -1,8 +1,8 @@
 require('dotenv').config()
 
 const express = require('express')
-const SerialPort = require('serialport')
-const ReadLine = require('@serialport/parser-readline')
+// const SerialPort = require('serialport')
+// const ReadLine = require('@serialport/parser-readline')
 const app = express()
 const mongoose = require('mongoose')
 const Subscriber = require('./models/arqui2pro1')
