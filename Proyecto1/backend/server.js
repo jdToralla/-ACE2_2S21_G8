@@ -77,32 +77,32 @@ const message_input = "";
 //const received = JSON.parse(data);
 const received = JSON.parse('{"tipo":1,"valor":5,"estado":0}');
 
-try {
+// try {
     
-   const subscriber = new Subscriber(received)
-   var dt = new Date();
-   dt.setHours( dt.getHours() - 6 );
-   var dt2 = new Date();
-   dt2.setHours( dt2.getHours() - 6 );
-   subscriber.fecha_inicio = dt   
-   subscriber.fecha_fin = dt2
+//    const subscriber = new Subscriber(received)
+//    var dt = new Date();
+//    dt.setHours( dt.getHours() - 6 );
+//    var dt2 = new Date();
+//    dt2.setHours( dt2.getHours() - 6 );
+//    subscriber.fecha_inicio = dt   
+//    subscriber.fecha_fin = dt2
         
    
-   subscriber.save()
-       .then(subscriber => {
-           console.log(subscriber);
-           if (subscriber) {
-               console.log('registro creado exitosamente');
-           }
-       })
-       .catch(err => {
-           console.log("Error al crear");
+//    subscriber.save()
+//        .then(subscriber => {
+//            console.log(subscriber);
+//            if (subscriber) {
+//                console.log('registro creado exitosamente');
+//            }
+//        })
+//        .catch(err => {
+//            console.log("Error al crear");
    
-       });
-} catch (err) {
-    console.log("Error en la estructura");
-    console.log(err);
-}
+//        });
+// } catch (err) {
+//     console.log("Error en la estructura");
+//     console.log(err);
+// }
 // });
 
 

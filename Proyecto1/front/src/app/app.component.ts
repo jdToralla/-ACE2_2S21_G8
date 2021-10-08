@@ -66,17 +66,19 @@ export class AppComponent {
     //     "sentado": 0
     // }
 
-    setInterval(() => {
-      this.apiService.last({}).subscribe(res => {
-        this.weightReal = res.peso
+    // setInterval(() => {
+    //   this.apiService.last({}).subscribe(res => {
+    //     this.weightReal = res.peso
+    // this.timeStart = res.inicio.split('T')[1].split('.')[0]
 
-        if (res.inicio == res.fin) {
-          this.cronometro()
-        } else {
-          this.parar()
-        }
-      })
-    }, 1000);
+    //     if (res.inicio == res.fin) {
+    //       this.cronometro()
+    //     } else {
+    //       this.parar()
+    //     }
+    //   })
+    // }, 1000);
+
   }
 
 
@@ -88,6 +90,7 @@ export class AppComponent {
   }
 
   time = ""
+  timeStart =""
   s = 0
   m = 0
   h = 0
@@ -422,6 +425,9 @@ export class AppComponent {
       let difference = endTime.getTime() - startTime.getTime(); // This will give difference in milliseconds  
       let resultInMinutes = Math.round(difference / 60000);
       totalMinutes += resultInMinutes
+      totalMinutes = totalMinutes/data.length
+      console.log('El total de minutos es: ', totalMinutes);
+      
     })
 
     return totalMinutes
