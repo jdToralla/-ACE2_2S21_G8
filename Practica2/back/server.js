@@ -2,7 +2,11 @@ require('dotenv').config()
 
 const express = require('express')
 const cors = require('cors');
+<<<<<<< HEAD
 // const SerialPort = require('serialport')
+=======
+const SerialPort = require('serialport')
+>>>>>>> 4e1d318c946796309272685ed3eebf82c16c6b24
 const ReadLine = require('@serialport/parser-readline')
 const app = express()
 app.use(cors())
@@ -67,12 +71,21 @@ const message_input = "";
 
 ////CONEXION SERIAL PARA RECIBIR DATOS DE ARDUINO
 
+<<<<<<< HEAD
 // const port = new SerialPort('COM6', { baudRate: 9600 });
 // const parser = port.pipe(new ReadLine({ delimiter: '\n' }));
 
 // port.on("open", () => {
 //     console.log("Puerto serial abierto");
 // });
+=======
+const port = new SerialPort('COM6', { baudRate: 9600 });
+const parser = port.pipe(new ReadLine({ delimiter: '\n' }));
+
+port.on("open", () => {
+    console.log("Puerto serial abierto");
+});
+>>>>>>> 4e1d318c946796309272685ed3eebf82c16c6b24
 
 //parser.on( "data", async data => {
     
@@ -125,6 +138,10 @@ async function updateSubscriber(dt2) {
       if (subscriber == null) {
         // return res.status(404).json({ message: 'Cannot find subscriber' })
         return "error"
+<<<<<<< HEAD
+=======
+        console.log("No existe")
+>>>>>>> 4e1d318c946796309272685ed3eebf82c16c6b24
       }
       else{
           console.log("correcto")

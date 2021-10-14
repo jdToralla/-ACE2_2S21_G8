@@ -62,6 +62,7 @@ router.post('/last', async (req, res) => {
 // Creating one
 router.post('/', async (req, res) => {
   const subscriber = new Subscriber({
+<<<<<<< HEAD
     vviento:req.body.vviento,
     dviento: req.body.dviento,
     intensidad: req.body.intensidad,
@@ -77,6 +78,23 @@ router.post('/', async (req, res) => {
   
   subscriber.fecha = dt   
   
+=======
+    tipo:req.body.tipo,
+    valor: req.body.valor
+  })
+  var diasadd = req.body.dias
+
+  var dt = new Date();
+  dt.setHours( dt.getHours() - 6 );
+  dt.setDate(dt.getDate() + diasadd);
+  var dt2 = new Date();
+  dt2.setHours( dt2.getHours() - 6 );
+  dt2.setDate(dt2.getDate() + diasadd);
+  
+  subscriber.fecha_inicio = dt   
+  subscriber.fecha_fin = dt2
+  subscriber.estado = 0
+>>>>>>> 4e1d318c946796309272685ed3eebf82c16c6b24
 
   try {
     const newSubscriber = await subscriber.save()
@@ -86,6 +104,7 @@ router.post('/', async (req, res) => {
   }
 })
 
+<<<<<<< HEAD
 // // Creating one
 // router.post('/', async (req, res) => {
 //   const subscriber = new Subscriber({
@@ -113,6 +132,8 @@ router.post('/', async (req, res) => {
 //   }
 // })
 
+=======
+>>>>>>> 4e1d318c946796309272685ed3eebf82c16c6b24
 // Updating One
 router.patch('/:id', getSubscriber, async (req, res) => {
   if (req.body.name != null) {

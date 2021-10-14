@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+<<<<<<< HEAD
     "start": "nodemon server.js",
+=======
+>>>>>>> 4e1d318c946796309272685ed3eebf82c16c6b24
     "devStart": "nodemon server.js"
   },
   "author": "",
