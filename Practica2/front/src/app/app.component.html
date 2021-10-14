@@ -1,38 +1,54 @@
 
 <div class="container mt-5">
-
   <div class="row text-center">
-    <div class="col-4">
+    <div class="col-4" *ngIf="listDays.length > 0">
       <h2 style="font-size: 1.7rem;">Guatemala City, Guatemala</h2>
-      <h4>Oct 07, Friday</h4>
+      <h4>Oct {{listDays[0].day}} , {{listDays[0].weekday}}</h4>
       <img src="../assets/medio.png" alt="" srcset=""/>
       <div class="d-flex justify-content-center mt-0 pt-0 align-items-start">
-        <h1 style="font-size: 9rem; margin-bottom: 50px;">24</h1>
+        <h1 style="font-size: 9rem; margin-bottom: 50px;">{{listDays[0].temperatura}}</h1>
         <p style="font-size: 4rem; margin-top: 1.2rem;">°C</p>
       </div>
+      <!-- <div class="row">
+        <div class="col d-flex flex-column"><span>Wind</span> <span style="font-size: 1.4rem;"> {{dataWeather.vviento}}</span> </div>
+        <div class="col d-flex flex-column"><span>Direction</span> <span style="font-size: 1.4rem;">{{dataWeather.dviento}}</span> </div>
+        <div class="col d-flex flex-column"><span>Lumen</span><span style="font-size: 1.4rem;">{{dataWeather.intensidad}}</span></div>
+        <div class="col d-flex flex-column"><span>Humidity</span> <span style="font-size: 1.4rem;">{{dataWeather.humedad}}%</span> </div>
+      </div> -->
       <div class="row">
-        <div class="col d-flex flex-column"><span>Wind</span> <span style="font-size: 1.4rem;"> 120km/h</span> </div>
-        <div class="col d-flex flex-column"><span>Lumen</span><span style="font-size: 1.4rem;">15</span></div>
-        <div class="col d-flex flex-column"><span>Humidity</span> <span style="font-size: 1.4rem;">75%</span> </div>
+        <div class="col d-flex flex-column"><span>Wind</span> <span style="font-size: 1.4rem;"> {{listDays[0].vviento}}</span> </div>
+        <div class="col d-flex flex-column"><span>Direction</span> <span style="font-size: 1.4rem;">{{listDays[0].dviento}}</span> </div>
+        <div class="col d-flex flex-column"><span>Lumen</span><span style="font-size: 1.4rem;">{{listDays[0].intensidad}}</span></div>
+        <div class="col d-flex flex-column"><span>Humidity</span> <span style="font-size: 1.4rem;">{{listDays[0].humedad}}%</span> </div>
       </div>
     </div>
-    <div class="col-1"></div>
-    <div class="col-7 mt-4">
-      <div class="row" style="background-color: rgba(0, 0, 0, 0.3); border-radius: 10px;">
+    <div class="col-1">
+    </div>
+    <div class="col-7 mt-2">
+      <input type="date" (change)="searchByDate($event.target)" class="mb-2 w-100" style="background-color:rgb(231, 231, 231);" name="" id="">
+      <div class="row mb-2" style="background-color: rgba(0, 0, 0, 0.3); border-radius: 10px;" *ngFor="let item of listDays| slice:1:6">
         <div class="col d-flex justify-content-center align-items-center">
           <div class="div">
-            <h2>Saturday</h2>
-            <h4> May, 28</h4>
+            <h3>{{item.weekday}}</h3>
+            <h4> Oct , {{item.day}}</h4>
           </div>
         </div>
-        <div class="col center d-flex justify-content-center align-items-center">
-          <h2>30°C</h2>
+        <div class="col mt-4">
+          <h2 class="mt-2">{{item.temperatura}}°C</h2>
+        </div>
+        <div class="col center d-flex justify-content-center align-items-center flex-column">
+          <div class="d-flex">
+            <p class="mx-2">W <br/> {{item.vviento}}</p>
+            <p class="mx-2">D <br/> {{item.dviento}}</p>
+            <p class="mx-2">L <br/> {{item.intensidad}}</p>
+            <p class="mx-2">H <br/> {{item.humedad}}%</p>
+          </div>
         </div>
         <div class="col d-flex justify-content-center align-items-center">
-          <img src="../assets/sun.png" style="width: 8rem;" alt="" srcset="">
+          <img src="../assets/sun.png" style="width: 7rem;" alt="" srcset="">
         </div>
       </div>
-      <div class="row mt-2" style="background-color: rgba(0, 0, 0, 0.3); border-radius: 10px;">
+      <!-- <div class="row mt-2" style="background-color: rgba(0, 0, 0, 0.3); border-radius: 10px;">
         <div class="col d-flex justify-content-center align-items-center">
           <div class="div">
             <h2>Saturday</h2>
@@ -73,7 +89,7 @@
         <div class="col d-flex justify-content-center align-items-center">
           <img src="../assets/lluvia.png" style="width: 8rem;" alt="" srcset="">
         </div>
-      </div>
+      </div> -->
       
     </div>
   </div>
