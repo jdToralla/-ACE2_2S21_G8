@@ -25,7 +25,8 @@ export class AppComponent {
     dviento: '',
     vviento: '',
     day:'',
-    weekday:''
+    weekday:'',
+    image:''
   }
 
   constructor(private apiService: ApiService) {
@@ -34,7 +35,7 @@ export class AppComponent {
 
   ngOnInit(): void {
 
-    setInterval(() => {
+    setInsterval(() => {
       this.apiService.getAllData().subscribe(res => {
         // console.log(res);
         this.data = res
@@ -66,6 +67,7 @@ export class AppComponent {
       let numberDay = new Date(v.fecha.split('T')[0] + " " + v.fecha.split('T')[1].split('.')[0]).getDay();
       
       if(this.listDays.length === 0){   
+        this.getImage(v)
         v.day = v.fecha.split('T')[0].split('-')[2]     
         v.weekday = this.getWeekday(numberDay)
         this.listDays.push(v)
@@ -78,21 +80,30 @@ export class AppComponent {
         
         if(res.length <= 0){
           
-
+          this.getImage(v)
           v.day = v.fecha.split('T')[0].split('-')[2]
           v.weekday = this.getWeekday(numberDay)
           this.listDays.push(v) 
-
+          
         }
       }
 
     }) 
 
+    console.log(this.listDays);
+    
     this.listDaysTmp = [...this.listDays];
   }
 
-  getImage():void{
+  getImage(v):void{
 
+    if(v.intensidad > 1000){
+      v.image = '../assets/sun.png'
+    }else if(v.intensidad <= 1000 && v.intensidad >= 100){
+      v.image = '../assets/medio.png'
+    }else{
+      v.image = '../assets/lluvia.png'
+    }
   }
 
   getWeekday(numberDay:number):string{
