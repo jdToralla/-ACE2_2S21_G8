@@ -47,7 +47,7 @@ router.post('/lasttiempo', async (req, res) => {
       subscribers.estado = 0;
     }
     else
-      subscribers.estado = 6;
+      subscribers.estado = 6;  
 
     res.json({ "inicio": subscribers.fecha_inicio, "fin": subscribers.fecha_fin, "peso": subscribers.valor, "sentado": subscribers.estado })
   } catch (err) {
@@ -77,13 +77,7 @@ router.post('/last', async (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   try {
     const subscribers = await Subscriber.findOne({ tipo: 1 }).sort({ "_id": -1 }).limit(1)
-    if(subscribers.tipo==6){
-      subscribers.estado = 6;
-      res.json({ "inicio": subscribers.fecha_inicio, "fin": subscribers.fecha_fin, "peso": subscribers.valor, "sentado": subscribers.estado })
-    }else if(subscribers.tipo==5){
-      subscribers.estado = 5;
-      res.json({ "inicio": subscribers.fecha_inicio, "fin": subscribers.fecha_fin, "peso": subscribers.valor, "sentado": subscribers.estado })
-    }
+
     if (subscribers.estado == 2) {
       subscribers.valor = 0;
       subscribers.estado = 0;

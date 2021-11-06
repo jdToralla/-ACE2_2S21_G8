@@ -91,28 +91,29 @@ export class AppComponent {
         this.weightReal = res.peso
         
     this.timeStart = res.inicio.split('T')[1].split('.')[0]
-
+                       
         if (res.inicio == res.fin) {
           this.cronometro2()
-          
+          this.parar()
         } else {
           this.parar2()
          
        }
       })
-      this.apiService.lasttiempo({}).subscribe(res => {
+      this.apiService.lasttiempo({}).subscribe(res => {  
 
         
         console.log(res)
         if(res.sentado==1){
-          this.estadoReal="Buena Postura"
+          this.estadoReal="Buena  Postura"
           this.parar()
         }else if(res.sentado==6){
           this.estadoReal="Mala Postura"
           this.cronometro()
           this.timeStart2 = res.inicio.split('T')[1].split('.')[0]
         }else{
-          this.estadoReal=" "
+          this.estadoReal=" "  
+          this.parar() 
         }
 
       }
