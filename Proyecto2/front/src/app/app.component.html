@@ -1,0 +1,182 @@
+<div class="container-fluid pt-2 ps-4 text-center mt-2">
+  <h2 class="text-center"> <i class="fas fa-chair me-1"></i> Smart Chair   <p> Id: 154, Ubicacion: Ciudad de Guatemala, Guatemala , Nombre de usuario: Marlon </p></h2>
+
+  <div class="col d-flex mt-3 flex-wrap justify-content-around">
+    <div class="row m-1">
+      <div class="card bg-light text-dark">
+        <div class="card-body">
+          <h5 class="card-title"> <i class="far fa-clock me-2"></i>{{(totalMinutes /60).toFixed(2)}} horas</h5>
+          <p class="card-text">Tiempo total de horas de Uso</p>
+        </div>
+      </div>
+    </div>
+    <div class="row m-1">
+      <div class="card bg-light text-dark" >
+        <div class="card-body">
+          <h5 class="card-title"> <i class="fa fa-user me-2" aria-hidden="true"></i> {{currentData.length}} veces </h5>
+          <p class="card-text">Número de veces que el usuario se levanta por día</p>
+        </div>
+      </div>
+    </div>
+    <div class="row m-1">
+      <div class="card bg-light text-dark" >
+        <div class="card-body">
+          <h5 class="card-title"> <i class="fa fa-hourglass-end me-2"></i> {{(totalMinutesPerDay *10000).toFixed(2)}} horas</h5>
+          <p class="card-text">Tiempo de uso promedio de la silla por día</p>
+        </div> 
+      </div>
+    </div>
+    <div class="row m-1">
+      <div class="card bg-light text-dark" >
+        <div class="card-body">
+          <h5 class="card-title"> <i class="fa fa-weight-hanging me-2"></i> {{weightReal}} kg </h5>
+          <p class="card-text"> Peso actual</p>
+        </div>
+      </div>
+    </div>
+   
+    <div class="row m-1">
+      <div class="card bg-light text-dark" >
+        <div class="card-body">
+          <h5 class="card-title"> <i class="fas fa-user-clock"></i>{{time2}} </h5>
+          <p mt-0 pt-0> Tiempo de inicio:{{timeStart}}</p>
+          <p class="card-text mt-0 pt-0"> Tiempo de uso en tiempo real</p>
+        </div>
+      </div>
+    </div>
+    <div class="row m-1">
+      <div class="card bg-light text-dark" >
+        <div class="card-body">
+          <h5 class="card-title"> <i class="fas fa-check-circle"></i> {{estadoReal}}  </h5>
+          <p class="card-text"> Estado actual</p>
+        </div>
+      </div>
+    </div>
+    <div class="row m-1">
+      <div class="card bg-light text-dark" >
+        <div class="card-body">
+          <h5 class="card-title"> <i class="fas fa-user-times"></i>{{time}} </h5>
+          
+          <p mt-0 pt-0> Tiempo de inicio:{{timeStart2}}</p>
+          <p class="card-text mt-0 pt-0"> Tiempo de mala postura en tiempo real</p>
+        </div>
+      </div>
+    </div>
+    
+   <div class="row m-1">
+      <div class="card bg-light text-dark" >
+        <div class="card-body">
+          <h5 class="card-title"> <i class="fas fa-exclamation"></i> {{vecesExcedidas}}  </h5>
+          <p class="card-text"> Total de veces excedidas de tiempo</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col mt-2">
+      <h5>Historial de uso</h5>
+      <div class="col-auto">
+        <label class="sr-only" for="inlineFormInput">Name</label>
+        <input type="date" class="form-control mb-2" id="inlineFormInput" placeholder="Jane Doe" (change)="searchByDate($event.target)">
+      </div>
+      <div style="height: 200px; overflow-y:auto; scrollbar-width: none;">
+        <table class="table table-light">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Hora Inicio</th>
+              <th scope="col">Hora fin</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of dataHistory; let i=index ">
+              <th scope="row">{{i+1}}</th>
+              <td>{{item.date}}</td>
+              <td>{{item.startTime}} </td>
+              <td>{{item.endTime}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col mt-2" > 
+      <h5>Tendencia de peso</h5>
+      <chart class="bg-light" [type]="typeGraph1" [data]="data1" [options]="options"></chart>
+    </div>
+    <div class="col mt-2">
+      <h5>Dias de mayor uso</h5>
+      <chart class="bg-light" [type]="typeGraph2" [data]="data2" [options]="options"></chart>
+    </div>
+  </div>
+  <div class="row mt-3"> 
+    <div class="col mt-2" >
+      <h5>Dias de menor uso</h5>
+      <div class="chart-diplay">
+        <div style="width: 100%"  style="background-color:#FFFFFF">
+          <canvas id="bar"></canvas>
+        </div>
+      </div>
+    </div>
+     <div class="col mt-2" >
+      <h5>Horario de uso</h5> 
+      <div class="chart-diplay">
+        <div style="width: 100%"  style="background-color:#FFFFFF">
+          <canvas id="line"></canvas>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+
+  <div class="row mt-5">
+    <div class="col mt-2">
+      <h5>Historial de mala postura</h5>
+      <div class="col-auto">
+        <label class="sr-only" for="inlineFormInput">Name</label>
+        <input type="date" class="form-control mb-2" id="inlineFormInput" placeholder="Jane Doe" (change)="searchByDates2($event.target)">
+      </div>
+      <div style="height: 200px; overflow-y:auto; scrollbar-width: none;">
+        <table class="table table-light">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Hora Inicio</th>
+              <th scope="col">Hora fin</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of dataHistory2; let i=index ">
+              <th scope="row">{{i+1}}</th>
+              <td>{{item.date}}</td>
+              <td>{{item.startTime}} </td>
+              <td>{{item.endTime}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col mt-2" > 
+      <h5>Tendencia de mala postura</h5>
+      <chart class="bg-light" [type]="typeGraph5" [data]="data5" [options]="options"></chart>
+    </div>
+    
+  </div>
+    <div class="row mt-5">
+      <div class="col mt-2">
+       <h5>Dias de mayor sobrepaso en tiempo</h5>
+        <chart class="bg-light" [type]="typeGraph7" [data]="data7" [options]="options"></chart>
+      </div>
+      <div class="col mt-2" > 
+        <h5>Tendencia sobrepaso de tiempo</h5>
+        <chart class="bg-light" [type]="typeGraph6" [data]="data6" [options]="options"></chart>
+      </div>
+    </div>
+</div>
+
+ <!-- <div>
+  <button class="btn btn-primary" (click)="insertData()"> Insertar</button>
+</div> -->
